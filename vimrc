@@ -1,28 +1,3 @@
-"==========================================
-" Author:  wklken
-" Version: 9.0
-" Email: wklken@yeah.net
-" BlogPost: http://www.wklken.me
-" ReadMe: README.md
-" Donation: http://www.wklken.me/pages/donation.html
-" Last_modify: 2015-05-02
-" Sections:
-"       -> Initial Plugin 加载插件
-"       -> General Settings 基础设置
-"       -> Display Settings 展示/排版等界面格式设置
-"       -> FileEncode Settings 文件编码设置
-"       -> Others 其它配置
-"       -> HotKey Settings  自定义快捷键
-"       -> FileType Settings  针对文件类型的设置
-"       -> Theme Settings  主题设置
-"
-"       -> 插件配置和具体设置在vimrc.bundles中
-"==========================================
-
-"==========================================
-" Initial Plugin 加载插件
-"==========================================
-
 " 修改leader键
 let mapleader = 'f'
 let g:mapleader = 'f'
@@ -37,7 +12,6 @@ inoremap jj <ESC>
 " 开启语法高亮
 syntax on
 
-
 " install Vundle bundles
 if filereadable(expand("~/.vimrc.bundles"))
   source ~/.vimrc.bundles
@@ -49,10 +23,11 @@ filetype plugin indent on
 "==========================================
 " General Settings 基础设置
 "==========================================
+:set fu
+:set nofu
 
 "以下配置有详细说明，一些特性不喜欢可以直接注解掉
-
-"set guifont=Monaco:h20          " 字体 && 字号
+set guifont=Ubuntu Mono derivative Powerline:h12          " 字体 && 字号
 
 " history存储容量
 set history=2000
@@ -200,24 +175,7 @@ set ttyfast
 
 " 00x增减数字时使用十进制
 set nrformats=
-
-
-" 相对行号      行号变成相对，可以用 nj  nk   进行跳转 5j   5k 上下跳5行
-"set relativenumber number
-"au FocusLost * :set norelativenumber number
-"au FocusGained * :set relativenumber
-" 插入模式下用绝对行号, 普通模式下用相对
-"autocmd InsertEnter * :set norelativenumber number
-"autocmd InsertLeave * :set relativenumber
-"function! NumberToggle()
-"  if(&relativenumber == 1)
-"    set norelativenumber number
-"  else
-"    set relativenumber
-"  endif
-"endfunc
 nnoremap <C-n> :call NumberToggle()<cr>
-
 
 "==========================================
 " FileEncode Settings 文件编码,格式
@@ -239,7 +197,6 @@ set ffs=unix,dos,mac
 set formatoptions+=m
 " 合并两行中文时，不在中间加空格：
 set formatoptions+=B
-
 
 "==========================================
 " others 其它设置
@@ -326,7 +283,6 @@ au InsertLeave * set nopaste
 
 nnoremap <F6> :exec exists('syntax_on') ? 'syn off' : 'syn on'<CR>
 
-
 "Smart way to move between windows 分屏窗口移动
 map <C-j> <C-W>j
 map <C-k> <C-W>k
@@ -337,11 +293,9 @@ map <C-l> <C-W>l
 noremap H ^
 noremap L $
 
-
 "Map ; to : and save a million keystrokes
 " ex mode commands made easy 用于快速进入命令行
 nnoremap ; :
-
 
 " 命令行模式增强，ctrl - a到行首， -e 到行尾
 cnoremap <C-j> <t_kd>
@@ -350,7 +304,6 @@ cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
 
 " 搜索相关
-
 " Map <Space> to / (search) and Ctrl-<Space> to ? (backwards search)
 map <space> /
 " 进入搜索Use sane regexes"
@@ -380,7 +333,6 @@ nnoremap ]b :bnext<cr>
 noremap <left> :bp<CR>
 noremap <right> :bn<CR>
 
-
 " tab 操作
 " TODO: ctrl + n 变成切换tab的方法
 " http://vim.wikia.com/wiki/Alternative_tab_navigation
@@ -397,7 +349,6 @@ map <leader>tp :tabprev<cr>
 map <leader>te :tabedit<cr>
 map <leader>td :tabclose<cr>
 map <leader>tm :tabm<cr>
-
 
 " 新建tab  Ctrl+t
 nnoremap <C-t>     :tabnew<CR>
@@ -432,7 +383,6 @@ nnoremap <silent> <leader>tt :execute 'tabnext ' . g:last_active_tab<cr>
 vnoremap <silent> <leader>tt :execute 'tabnext ' . g:last_active_tab<cr>
 autocmd TabLeave * let g:last_active_tab = tabpagenr()
 
-
 " ------- 选中及操作改键
 
 "Reselect visual block after indent/outdent.调整缩进后自动选中，方便再次操作
@@ -459,7 +409,6 @@ cmap w!! w !sudo tee >/dev/null %
 " 滚动Speed up scrolling of the viewport slightly
 nnoremap <C-e> 2<C-e>
 nnoremap <C-y> 2<C-y>
-
 
 "Jump to start and end of line using the home row keys
 " 增强tab操作, 导致这个会有问题, 考虑换键
@@ -515,7 +464,6 @@ autocmd FileType python set tabstop=4 shiftwidth=4 expandtab ai
 autocmd FileType ruby set tabstop=2 shiftwidth=2 softtabstop=2 expandtab ai
 autocmd BufRead,BufNew *.md,*.mkd,*.markdown  set filetype=markdown.mkd
 
-
 " 保存python文件时删除多余空格
 fun! <SID>StripTrailingWhitespaces()
     let l = line(".")
@@ -524,7 +472,6 @@ fun! <SID>StripTrailingWhitespaces()
     call cursor(l, c)
 endfun
 autocmd FileType c,cpp,java,go,php,javascript,puppet,python,rust,twig,xml,yml,perl autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
-
 
 " 定义函数AutoSetFileHead，自动插入文件头
 autocmd BufNewFile *.sh,*.py exec ":call AutoSetFileHead()"
@@ -544,7 +491,6 @@ function! AutoSetFileHead()
     normal o
     normal o
 endfunc
-
 
 " set some keyword to highlight
 if has("autocmd")
@@ -568,7 +514,7 @@ if has("gui_running")
     set guitablabel=%M\ %t
     set showtabline=1
     set linespace=2
-    set lines = 9999 columns=9999
+    set lines = 20000 columns=20000
     set noimd
     set t_Co=256
 endif
@@ -604,21 +550,6 @@ highlight clear SpellRare
 highlight SpellRare term=underline cterm=underline
 highlight clear SpellLocal
 highlight SpellLocal term=underline cterm=underline
-
-"生成ctags的快捷键
-nnoremap <leader>8 :call GenerateTagsFile() <cr>
-nnoremap <leader>9 :call GenerateJsTags() <cr>
-
-"csope
-nmap <leader>s : cs find s <C-R>=expand("<cword>")<CR><CR> 
-nmap <leader>g : cs find g <C-R>=expand("<cword>")<CR><CR> 
-nmap <leader>c : cs find c <C-R>=expand("<cword>")<CR><CR> 
-nmap <leader>d : cs find d <C-R>=expand("<cword>")<CR><CR> 
-nmap <leader>t : cs find t <C-R>=expand("<cword>")<CR><CR> 
-nmap <leader>e : cs find e <C-R>=expand("<cword>")<CR><CR> 
-nmap <leader>f : cs find f <C-R>=expand("<cfile>")<CR><CR> 
-nmap <leader>i : cs find i ^<C-R>=expand("<cfile>")<CR>$<CR> 
-
 "进入某个目录
 nmap <silent> <leader>cd :cd %:p:h
 nmap <silent> <leader>md :!mkdir -p %:p:h<CR>

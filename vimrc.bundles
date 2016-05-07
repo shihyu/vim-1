@@ -2,16 +2,9 @@
 " bundle 插件管理和配置项
 " ==========================================
 
-"------------------------------------------- begin of configs --------------------------------------------
-
-" ################### 包依赖 #####################
-" package dependence:  ctags, ag(he_silver_searcher)
-" python dependence:   pep8, pyflake
-
 " 非兼容vi模式。去掉讨厌的有关vi一致性模式，避免以前版本的一些bug和局限
 set nocompatible
-" configure Vundle
-filetype off " required! turn off
+filetype off
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
@@ -23,9 +16,6 @@ call vundle#rc()
 "     :BundleInstall!    update  更新
 "     :BundleClean       remove plugin not in list 删除本地无用插件
 Bundle 'gmarik/vundle'
-
-
-" ################### 基础 ######################
 
 " 多语言语法检查
 Bundle 'scrooloose/syntastic'
@@ -49,7 +39,6 @@ let g:syntastic_python_pep8_args='--ignore=E501,E225,E124,E712'
 " let g:syntastic_python_checkers=['pylint'] " 使用pyflakes,速度比pylint快
 " let g:syntastic_python_pylint_args='--disable=C0111,R0903,C0301'
 
-
 let g:syntastic_javascript_checkers = ['jsl', 'jshint']
 let g:syntastic_html_checkers=['tidy', 'jshint']
 " 修改高亮的背景色, 适应主题
@@ -71,17 +60,14 @@ endfunction
 nnoremap <Leader>s :call ToggleErrors()<cr>
 " nnoremap <Leader>sn :lnext<cr>
 " nnoremap <Leader>sp :lprevious<cr>
-
-
-
 " ################### 自动补全 ###################
-
 " 代码自动补全
 "迄今为止用到的最好的自动VIM自动补全插件
 "重启 :YcmRestartServer
 Bundle 'oblitum/YouCompleteMe'
 "youcompleteme  默认tab  s-tab 和自动补全冲突
 "let g:ycm_key_list_select_completion=['<c-n>']
+"补全功能在注释中同样有效
 let g:ycm_key_list_select_completion = ['<Down>']
 "let g:ycm_key_list_previous_completion=['<c-p>']
 let g:ycm_key_list_previous_completion = ['<Up>']
@@ -90,9 +76,10 @@ let g:ycm_complete_in_strings = 1   "在字符串输入中也能补全
 let g:ycm_use_ultisnips_completer = 1 "提示UltiSnips
 let g:ycm_collect_identifiers_from_comments_and_strings = 1   "注释和字符串中的文字也会被收入补全
 let g:ycm_collect_identifiers_from_tags_files = 1
+let g:ycm_min_num_of_chars_for_completion = 1 "从第一个键入字符就开始罗列匹配项
 let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
-
-"let g:ycm_seed_identifiers_with_syntax=1   "语言关键字补全, 不过python关键字都很短，所以，需要的自己打开
+let g:ycm_cache_omnifunc = 0
+let g:ycm_seed_identifiers_with_syntax=1   "语言关键字补全, 不过python关键字都很短，所以，需要的自己打开
 
 " 跳转到定义处, 分屏打开
 let g:ycm_goto_buffer_command = 'horizontal-split'
@@ -102,16 +89,6 @@ nnoremap <leader>gd :YcmCompleter GoToDeclaration<CR>
 nnoremap <leader>ld :YcmCompleter GoTo<CR>
 nnoremap <leader>nd :YcmCompleter GoToImprecise<CR>
 
-" 引入，可以补全系统，以及python的第三方包 针对新老版本YCM做了兼容
-" old version
-"if !empty(glob("~/.vim/bundle/YouCompleteMe/cpp/ycm/.ycm_extra_conf.py"))
-"    let g:ycm_global_ycm_extra_conf = "~/.vim/bundle/YouCompleteMe/cpp/ycm/.ycm_extra_conf.py"
-"endif
-" new version
-"if !empty(glob("~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"))
-"    let g:ycm_global_ycm_extra_conf = "~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"
-"endif
-
 " 直接触发自动补全 insert模式下
 " let g:ycm_key_invoke_completion = '<C-Space>'
 " 黑名单,不启用
@@ -120,10 +97,8 @@ let g:ycm_filetype_blacklist = {
       \ 'gitcommit' : 1,
       \}
 
-
 " 代码片段快速插入 (snippets中,是代码片段资源,需要学习)
 Bundle 'SirVer/ultisnips'
-" Snippets are separated from the engine. Add this if you want them:
 Bundle 'honza/vim-snippets'
 
 let g:UltiSnipsExpandTrigger       = "<tab>"
@@ -155,7 +130,6 @@ inoremap <c-j> <c-r>=g:JInYCM()<cr>
 au BufEnter,BufRead * exec "inoremap <silent> " . g:UltiSnipsJumpBackwordTrigger . " <C-R>=g:KInYCM()<cr>"
 let g:UltiSnipsJumpBackwordTrigger = "<c-k>"
 
-
 " 自动补全单引号，双引号等
 Bundle 'Raimondi/delimitMate'
 
@@ -164,17 +138,14 @@ au FileType python let b:delimitMate_nesting_quotes = ['"']
 " 关闭某些类型文件的自动补全
 "au FileType mail let b:delimitMate_autoclose = 0
 
-
 " 自动补全html/xml标签
 Bundle 'docunext/closetag.vim'
 let g:closetag_html_style=1
 
 " ################### 快速编码 ###################
-
 " 快速注释
 Bundle 'scrooloose/nerdcommenter'
 let g:NERDSpaceDelims=1
-
 
 " 快速加入修改环绕字符
 Bundle 'tpope/vim-surround'
@@ -195,7 +166,6 @@ endif
 let g:easy_align_delimiters['#'] = { 'pattern': '#', 'ignore_groups': ['String'] }
 
 " ################### 快速移动 ###################
-
 "更高效的移动 [,, + w/fx]
 Bundle 'Lokaltog/vim-easymotion'
 let g:EasyMotion_smartcase = 1
@@ -206,8 +176,6 @@ map <Leader><Leader>k <Plug>(easymotion-k)
 map <Leader><leader>l <Plug>(easymotion-lineforward)
 " 重复上一次操作, 类似repeat插件, 很强大
 map <Leader><leader>. <Plug>(easymotion-repeat)
-
-
 
 Bundle 'vim-scripts/matchit.zip'
 
@@ -231,8 +199,6 @@ Bundle 'kana/vim-textobj-indent.git'
 " ################### 快速选中 ###################
 " 选中区块
 Bundle 'terryma/vim-expand-region'
-" map + <Plug>(expand_region_expand)
-" map _ <Plug>(expand_region_shrink)
 vmap v <Plug>(expand_region_expand)
 vmap V <Plug>(expand_region_shrink)
 
@@ -264,13 +230,12 @@ let g:ctrlp_match_window_reversed=0
 let g:ctrlp_mruf_max=500
 let g:ctrlp_follow_symlinks=1
 " 如果安装了ag, 使用ag
-" if executable('ag')
+if executable('ag')
   " " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-  " let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-  " " ag is fast enough that CtrlP doesn't need to cache
-  " let g:ctrlp_use_caching = 0
-" endif
-
+ let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+ " ag is fast enough that CtrlP doesn't need to cache
+ let g:ctrlp_use_caching = 0
+ endif
 
 " ctrlp插件1 - 不用ctag进行函数快速跳转
 Bundle 'tacahiroy/ctrlp-funky'
@@ -278,7 +243,6 @@ nnoremap <Leader>fu :CtrlPFunky<Cr>
 " narrow the list down with a word under cursor
 nnoremap <Leader>fU :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
 let g:ctrlp_funky_syntax_highlight = 1
-
 let g:ctrlp_extensions = ['funky']
 
 " 类似sublimetext的搜索
@@ -307,7 +271,6 @@ let g:ctrlsf_mapping = {
     \ "pquit" : "q",
     \ }
 
-
 " git.  git操作还是习惯命令行,vim里面处理简单diff编辑操作
 " :Gdiff  :Gstatus :Gvsplit
 Bundle 'tpope/vim-fugitive'
@@ -331,9 +294,7 @@ nnoremap <leader>gs :GitGutterToggle<CR>
 " edit history, 可以查看回到某个历史状态
 Bundle 'sjl/gundo.vim'
 noremap <leader>h :GundoToggle<CR>
-
 " ################### 显示增强 ###################
-
 " 状态栏增强展示
 " 新的airline配置
 Bundle 'bling/vim-airline'
@@ -349,7 +310,7 @@ let g:airline_powerline_fonts = 1
 set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ Bold:h20
 let g:airline_theme             = 'serene'
 
-if has("gui_running") 
+if has("gui_running")
     let g:airline_enable_branch     = 1
     let g:airline_enable_syntastic  = 1
     let g:airline_branch_prefix     = '⭠'
@@ -365,7 +326,6 @@ if has("gui_running")
     let g:airline#extensions#tabline#enabled = 1
     "let g:airline#extensions#tabline#show_buffers = 1
 endif
-
 
 " 括号显示增强
 Bundle 'kien/rainbow_parentheses.vim'
@@ -396,7 +356,6 @@ au Syntax * RainbowParenthesesLoadRound
 au Syntax * RainbowParenthesesLoadSquare
 au Syntax * RainbowParenthesesLoadBraces
 
-
 " ################### 显示增强-主题 ###################"
 
 " 主题 solarized
@@ -414,7 +373,6 @@ let g:molokai_original = 1
 " 主题 tomorrow
 Bundle 'chriskempson/vim-tomorrow-theme'
 
-
 " ################### 快速导航 ###################
 "目录导航
 Bundle 'scrooloose/nerdtree'
@@ -429,7 +387,6 @@ let NERDTreeShowHidden = 1
 let g:NERDTreeMapOpenSplit = 's'
 let g:NERDTreeMapOpenVSplit = 'v'
 
-
 Bundle 'jistr/vim-nerdtree-tabs'
 map <Leader>n <plug>NERDTreeTabsToggle<CR>
 " 关闭同步
@@ -438,7 +395,6 @@ let g:nerdtree_tabs_synchronize_focus=0
 " 自动开启nerdtree
 "let g:nerdtree_tabs_open_on_console_startup=1
 
-
 " Vim Workspace Controller
 Bundle "szw/vim-ctrlspace"
 let g:airline_exclude_preview = 1
@@ -446,7 +402,6 @@ hi CtrlSpaceSelected guifg=#586e75 guibg=#eee8d5 guisp=#839496 gui=reverse,bold 
 hi CtrlSpaceNormal   guifg=#839496 guibg=#021B25 guisp=#839496 gui=NONE ctermfg=12 ctermbg=0 cterm=NONE
 hi CtrlSpaceSearch   guifg=#cb4b16 guibg=NONE gui=bold ctermfg=9 ctermbg=NONE term=bold cterm=bold
 hi CtrlSpaceStatus   guifg=#839496 guibg=#002b36 gui=reverse term=reverse cterm=reverse ctermfg=12 ctermbg=8
-
 
 " for minibufferexpl 去掉, 有需要同学的自己解开
 " Bundle 'fholgado/minibufexpl.vim'
@@ -463,7 +418,6 @@ hi CtrlSpaceStatus   guifg=#839496 guibg=#002b36 gui=reverse term=reverse cterm=
 " noremap <leader>bn :MBEbn<CR>
 " noremap <leader>bp :MBEbp<CR>
 " noremap <leader>bd :MBEbd<CR>
-
 
 " 标签导航
 Bundle 'majutsushi/tagbar'
@@ -513,12 +467,10 @@ let g:tagbar_type_go = {
     \ 'ctagsargs' : '-sort -silent'
 \ }
 
-
 " 去除taglist =>原因: 使用tagbar和ctrlp-funky可以直接快速跳转函数和变量位置,taglist有些多余
 " ################### 语言相关 ###################
 " For tmux navigator Ctrl-hjkl
 Bundle 'christoomey/vim-tmux-navigator'
-
 
 " ################### 语言相关 ###################
 
@@ -557,7 +509,6 @@ Bundle 'Blackrush/vim-gocode'
 " Bundle 'tpope/vim-endwise'
 " Bundle 'tpope/vim-rails'
 
-
 " ###### Markdown #########
 Bundle 'plasticboy/vim-markdown'
 let g:vim_markdown_folding_disabled=1
@@ -577,7 +528,6 @@ Bundle "pangloss/vim-javascript"
 let g:html_indent_inctags = "html,body,head,tbody"
 let g:html_indent_script1 = "inc"
 let g:html_indent_style1 = "inc"
-
 
 " for javascript 自动补全,配合YCM,需要安装nodejs&npm  see
 " https://github.com/marijnh/tern_for_vim
@@ -621,6 +571,8 @@ Bundle 'derekwyatt/vim-fswitch'
 " ###### nginx #########
 " Bundle 'evanmiller/nginx-vim-syntax'
 
+Bundle 'rking/ag.vim'
+let g:ag_working_path_mode="r"
 
 " ####### temp #######
 " python code format
